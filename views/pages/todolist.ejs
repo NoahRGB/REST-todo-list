@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Todo list</title>
+    <script src="todolist.js" charset="utf-8"></script>
+    <script src="./index.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <h1><u>Todo list</u></h1>
+
+    <% output.forEach(function(item) { %>
+      <h3><%=item[1]%></h3>
+    <% }); %>
+
+  </body>
+</html>
