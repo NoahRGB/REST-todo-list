@@ -7,14 +7,15 @@ app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 })); //urlenocded allows the data from PUT and POST requests to be interpreted as arrays and strings
+app.use(express.static(__dirname + "/views"));
 app.set('view engine', 'ejs');
 
 var db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
+  host: "",
+  user: "",
   password: "",
-  port: "3306",
-  database: "todolist"
+  port: "",
+  database: ""
 });
 
 db.connect(function(err) {
@@ -25,25 +26,25 @@ db.connect(function(err) {
 });
 
 //create database
-app.get("/createdatabase", (req, res) => {
-  var sql = "CREATE DATABASE todolist";
-  db.query(sql, (err) => {
-    if (err) {
-      throw err;
-    }
-  });
-});
+// app.get("/createdatabase", (req, res) => {
+//   var sql = "CREATE DATABASE todolist";
+//   db.query(sql, (err) => {
+//     if (err) {
+//       throw err;
+//     }
+//   });
+// });
 
 //create table
-app.get("/createlist", (req, res) => {
-  let sql = "CREATE TABLE list(id int AUTO_INCREMENT, description VARCHAR(255), PRIMARY KEY(id))";
-  db.query(sql, (err) => {
-    if (err) {
-      throw err;
-    }
-    res.send("Table created");
-  });
-});
+// app.get("/createlist", (req, res) => {
+//   let sql = "CREATE TABLE list(id int AUTO_INCREMENT, description VARCHAR(255) UNIQUE, PRIMARY KEY(id))";
+//   db.query(sql, (err) => {
+//     if (err) {
+//       throw err;
+//     }
+//     res.send("Table created");
+//   });
+// });
 
 
 app.get('/', (req, res) => {
@@ -51,17 +52,34 @@ app.get('/', (req, res) => {
   res.render('pages/index');
 });
 
-// app.get('/todo', (req, res) => {
-//   sql = "SELECT * FROM list";
-//   db.query(sql, (err, results) => {
-//     if (err) {
-//       throw err;
-//     }
-//     //display on html page
-//   });
-// });
+app.get('/todo', (req, res) => {
+  res.render("pages/todolist");
+});
 
-app.post('/todo', (req, res) => {
+app.get("/todo-items", (req, res) => {
+  var sql = "SELECT * FROM list";
+  db.query(sql, (err, results) => {
+    if (err) {
+      throw err;
+    }
+    res.send(results);
+  });
+});
+
+app.post('/remove-item', (req, res) => {
+  var sql = "DELETE FROM list WHERE id="+req.body.id;
+  console.log(sql);
+  var c = {id: req.id};
+  db.query(sql, (err, results) => {
+    if (err) {
+      throw err;
+    }
+    console.log("Deleted "+results.affectedRows);
+  });
+  res.render("pages/todolist");
+});
+
+app.post('/add-item', (req, res) => {
   //input validation on variables we assume are present
   //using Joi for validation, allows you to check input against a schema
   const schema = Joi.object({
@@ -83,20 +101,8 @@ app.post('/todo', (req, res) => {
       throw err;
     }
   });
-  // res.sendFile(__dirname+"/frontend/todolist.html");
-  var todoList = [];
-  sql = "SELECT * FROM list";
-  db.query(sql, (err, results) => {
-    if (err) {
-      throw err;
-    }
-    for (var i = 0; i < results.length; i++) {
-      todoList.push([results[i]["id"], results[i]["description"]]);
-    }
-    res.render('pages/todolist', {
-      output: todoList
-    });
-  });
+  //renders the todolist page after adding
+  res.render("pages/todolist");
 
 });
 

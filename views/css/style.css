@@ -1,0 +1,37 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: monospace;
+}
+
+h1 {
+  font-family: monospace;
+  margin-bottom: 10px;
+}
+
+#header-title {
+  margin-left: 2vw;
+}
+
+#todolist-container {
+  margin-left: 1vw;
+}
+
+#add-item-link {
+  margin-left: 2vw;
+}
+
+#list-item {
+  margin-left: 2vw;
+}
+
+#add-todo-container {
+  margin-left: 1vw;
+}
+
+#header-container {
+  width: 100%;
+  height: 10vh;
+  background: #949494;
+  margin-bottom: 1vh;
+}

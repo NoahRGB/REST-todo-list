@@ -4,16 +4,20 @@
     <meta charset="utf-8">
     <title>REST API</title>
     <script src="./index.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="/css/style.css">
   </head>
   <body>
-    <h1>Todo list</h1>
-    <form class="" action="/todo" method="post">
-      <fieldset>
+    <%- include("../partials/header.ejs") %>
+    <div id="add-todo-container">
+      <h1>Todo list</h1>
+      <form class="" action="/add-item" method="post">
+
         <label for="name">Enter todo:</label><br>
         <input type="text" name="description" value=""><br><br>
         <input type="submit" value="Submit">
-      </fieldset>
 
-    </form>
+      </form>
+    </div>
+
   </body>
 </html>
